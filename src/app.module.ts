@@ -16,9 +16,18 @@ import { UserInfoModule } from './userInfo/userInfo.module';
 import { ContractController } from './contract/contract.controller';
 import { ContractService } from './contract/contract.service';
 import { ContractModule } from './contract/contract.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { TypeOrmConfigService } from './config/typeorm.config.service';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useClass: TypeOrmConfigService,
+      inject: [ConfigModule],
+    }),
     CompanyModule,
     TrainerModule,
     UserModule,
