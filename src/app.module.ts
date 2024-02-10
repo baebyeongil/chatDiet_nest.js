@@ -18,7 +18,7 @@ import { ContractService } from './contract/contract.service';
 import { ContractModule } from './contract/contract.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './config/typeorm.config.service';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -26,7 +26,7 @@ import { ConfigModule } from '@nestjs/config';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useClass: TypeOrmConfigService,
-      inject: [ConfigModule],
+      inject: [ConfigService],
     }),
     CompanyModule,
     TrainerModule,
@@ -34,21 +34,7 @@ import { ConfigModule } from '@nestjs/config';
     UserInfoModule,
     ContractModule,
   ],
-  controllers: [
-    AppController,
-    CompanyController,
-    TrainerController,
-    UserController,
-    UserInfoController,
-    ContractController,
-  ],
-  providers: [
-    AppService,
-    CompanyService,
-    TrainerService,
-    UserService,
-    UserInfoService,
-    ContractService,
-  ],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
