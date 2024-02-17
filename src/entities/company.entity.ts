@@ -30,7 +30,7 @@ export class Company {
 
   @OneToOne(() => User)
   @JoinColumn()
-  user: User;
+  user: number;
 
   @OneToMany(() => Trainer, (trainer) => trainer.company)
   trainers: Trainer[];

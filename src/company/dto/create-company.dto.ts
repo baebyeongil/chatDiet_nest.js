@@ -1,8 +1,8 @@
-import { IsNumber, IsString } from 'class-validator';
+import { IsString } from 'class-validator';
 
 export class CreateCompanyDto {
   @IsString()
-  readonly userId: Number;
+  readonly userId: number;
   readonly title: string;
   readonly content: string;
 }

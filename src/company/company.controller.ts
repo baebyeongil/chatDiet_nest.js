@@ -6,10 +6,17 @@ import {
   Post,
   Put,
   Delete,
+  Req,
 } from '@nestjs/common';
 import { CompanyService } from './company.service';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto copy';
+
+interface RequestWithLocals extends Request {
+  locals: {
+    id: number;
+  };
+}
 
 @Controller('api')
 export class CompanyController {
@@ -26,9 +33,14 @@ export class CompanyController {
   }
 
   @Post('/company')
-  async createCompany(@Body() data: CreateCompanyDto) {
-    const userId = 1;
+  async createCompany(
+    @Req() req: RequestWithLocals,
+    @Body() data: CreateCompanyDto,
+  ) {
+    const userId = req.locals.id;
+
     await this.companyService.createCompany(userId, data.title, data.content);
+
     return {
       message: 'create success',
     };
@@ -36,25 +48,30 @@ export class CompanyController {
 
   @Put('/companys/:id')
   async updateCompany(
+    @Req() req: RequestWithLocals,
     @Param('id') companyId: number,
     @Body() data: UpdateCompanyDto,
   ) {
-    const userId = 1;
+    const userId = req.locals.id;
+
     await this.companyService.updateCompany(
       companyId,
       userId,
       data.title,
       data.content,
     );
+
     return {
       message: 'update success',
     };
   }
 
   @Delete('/companys/:id')
-  async deleteCompany(@Param('id') id: number) {
-    const userId = 1;
+  async deleteCompany(@Req() req: RequestWithLocals, @Param('id') id: number) {
+    const userId = req.locals.id;
+
     await this.companyService.deleteCompany(id, userId);
+
     return {
       message: 'delete success',
     };

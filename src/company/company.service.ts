@@ -24,7 +24,7 @@ export class CompanyService {
   async createCompany(userId: number, title: string, content: string) {
     await this.checkData(title, content);
     return await this.companyRepository.insert({
-      userId,
+      user: userId,
       title,
       content,
     });
@@ -74,7 +74,7 @@ export class CompanyService {
   private async isAuth(id: number, userId: number) {
     const company = await this.checkCompanyId(id);
 
-    if (company.userId !== userId) {
+    if (company.user !== userId) {
       throw new UnauthorizedException('Cannot access');
     }
   }
